@@ -11,11 +11,5 @@ def check(g):
     for c in g[0]:
         if c in g[1] and c in g[2]:
             return get_value(c)
-tot = 0
-for i in range(0, len(lines), 3):
-    g1 = lines[i]
-    g2 = lines[i + 1]
-    g3 = lines[i + 2]
 
-    tot += check([g1, g2, g3])
-print(tot)
+print(sum([check(lines[index:index+3]) for index in range(0, len(lines), 3)]))
