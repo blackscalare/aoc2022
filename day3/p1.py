@@ -9,11 +9,9 @@ def get_value(c):
     else:
         return ord(c) - 38
 
-for line in lines:
-    comp1 = line[:int(len(line) / 2)]
-    comp2 = line[int(len(line) / 2):]
-    for c in comp1:
-        if c in comp2:
-            tot += get_value(c)
-            break
-print(tot)
+def check(g):
+    for c in g[0]:
+        if c in g[1]:
+            return get_value(c)
+
+print(sum([check([x[:int(len(x) / 2)], x[int(len(x) / 2):]]) for x in lines]))
