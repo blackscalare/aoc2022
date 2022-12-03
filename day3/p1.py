@@ -1,8 +1,6 @@
 with open('input.txt') as f:
     lines = [x.rstrip() for x in f]
 
-tot = 0
-
 def get_value(c):
     if c.islower():
         return ord(c) - 96
