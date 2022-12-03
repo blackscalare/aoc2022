@@ -12,4 +12,4 @@ def check(g):
         if c in g[1]:
             return get_value(c)
 
-print(sum([check([x[:int(len(x) / 2)], x[int(len(x) / 2):]]) for x in lines]))
+print(sum([check([x[:len(x) // 2], x[len(x) // 2:]]) for x in lines]))
