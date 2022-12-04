@@ -13,9 +13,6 @@ def fully_contains(p1, p2):
         return 1
     return 0
 
-tot = 0
-for line in lines:
-    p1, p2 = line.split(',')
-    tot += fully_contains(p1, p2)
+tot = sum([fully_contains(x[0], x[1]) for x in (x.split(',') for x in lines)])
 
 print(tot)
