@@ -13,6 +13,6 @@ def any_overlap(p1, p2):
         return 1
     return 0
 
-tot = sum([any_overlap(x[0], x[1]) for x in (x.split(',') for x in lines)])
+tot = sum([any_overlap(*x) for x in (x.split(',') for x in lines)])
 
 print(tot)
