@@ -1,6 +1,6 @@
 from collections import defaultdict
 from anytree import Node
-with open('test.txt') as f:
+with open('input.txt') as f:
     lines = [x.rstrip() for x in f]
 
 EXEC = '$'
@@ -43,8 +43,27 @@ for line in lines:
                     current_dir = d
                     current_node = list(nodes[d])[0]
                 else:
-                    children = [x for x in list(nodes[d])[0].children]
+                    names = [x.name for x in list(nodes[d])[0].children]
+                    if d in names:
+                        current_dir = d
+                        current_node = list(nodes[d])[0]
         elif line[1] == LS:
             ls_mode = True
+
+print(nodes)
 for l in nodes.keys():
-    print(list(nodes[l].keys())[0].ancestors)
+    #print(list(nodes[l].keys())[0].parent, nodes[l])
+    node = list(nodes[l].keys())[0]
+    parent = list(nodes[l].keys())[0].parent
+    if parent is not None:
+        value = nodes[node.name][node] + nodes[parent.name][parent]
+        if value <= 100000:
+            nodes[parent.name] = {parent: value}
+tot = 0
+for l in nodes.keys():
+    key = list(nodes[l].keys())[0]
+    val = nodes[l][key]
+    if val <= 100000:
+        tot += nodes[l][key]
+    #tot += list(nodes[l].keys())[0]
+print(tot)
