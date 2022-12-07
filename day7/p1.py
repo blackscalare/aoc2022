@@ -6,62 +6,45 @@ with open('test.txt') as f:
 EXEC = '$'
 CD = 'cd'
 LS = 'ls'
+ls_mode = False
 nodes = {}
 current_dir = ''
-dirs = set()
-ls_mode = False
+last_dir = ''
+current_node = None
+last_node = ''
 for line in lines:
     line = line.split(' ')
-    if line[0] == EXEC or line[0] == CD:
-            ls_mode = False
+    op = line[0]
+
+    if op == EXEC or op == CD:
+        ls_mode = False
+    
     if ls_mode:
-        if line[0] == 'dir':
-            nodes[current_dir][line[1]] = line[0]
-            dirs.add(line[1])
+        if line[0].isnumeric():
+            nodes[current_dir][current_node] += int(line[0])
         else:
-            nodes[current_dir][line[0]] = line[1]
-    last_dir = current_dir
-    if line[0] == EXEC:
+            pass
+
+    if op == EXEC:
         if line[1] == CD:
-            if line[2] == '..':
-                current_dir = last_dir
-            elif line[2] == '/':
-                current_dir = line[2]
-                dirs.add(current_dir)
-                try:
-                    nodes[line[2]]
-                except:
-                    nodes[line[2]] = {}
+            last_dir = current_dir
+            last_node = current_node
+            d = line[2]
+            if d == '..':
+                nodes[last_dir]
+            elif d == '/':
+                current_dir = d
+                if d not in nodes.keys():
+                    nodes[d] = {Node(d): 0}
+                current_node = list(nodes[d])[0]
             else:
-                if line[2] in nodes[current_dir]:
-                    current_dir = line[2]
-                    dirs.add(current_dir)
-                    if nodes.get(line[2]) == None:
-                        nodes[line[2]] = {}
-        if line[1] == LS:
+                if d not in nodes.keys():
+                    nodes[d] = {Node(d, parent=list(nodes[last_dir])[0]): 0}
+                    current_dir = d
+                    current_node = list(nodes[d])[0]
+                else:
+                    children = [x for x in list(nodes[d])[0].children]
+        elif line[1] == LS:
             ls_mode = True
-#print(nodes)
-
-folder_sizes = {}
-for k in nodes:
-    #first calculate all folder sizes
-    for v in nodes[k]:
-        if v.isnumeric():
-            try:
-                folder_sizes[k] += int(v)
-            except:
-                folder_sizes[k] = int(v)
-
-for k in nodes:
-    for v in nodes[k]:
-        if v.isalpha():
-            try:
-                folder_sizes[k] += folder_sizes[v]
-            except:
-                pass
-
-tot = 0
-for k in folder_sizes:
-    if folder_sizes[k] <= 100000:
-        tot += folder_sizes[k]
-print(tot)
+for l in nodes.keys():
+    print(list(nodes[l].keys())[0].ancestors)
