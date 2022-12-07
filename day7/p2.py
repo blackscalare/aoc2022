@@ -1,6 +1,6 @@
 #!/bin/python3
 with open('input.txt') as f:
-    lines = [x.rstrip()for x in f]
+    lines = [x.rstrip() for x in f]
 
 fs = {'size': 0}
 cwd = []
