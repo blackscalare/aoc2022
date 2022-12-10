@@ -8,7 +8,7 @@ def draw(reg_x, cycles, screen):
     sprite = [reg_x - 1, reg_x, reg_x + 1]
 
     if col in sprite:
-        screen[row][col] = '#'
+        screen[row][col] = '█'
     else:
         screen[row][col] = '.'
     return screen
