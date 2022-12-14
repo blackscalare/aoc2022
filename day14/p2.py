@@ -21,27 +21,26 @@ for i in range(-1000, 1000):
     points.add((i, floor + 2))
 
 not_freefall = True
-
-sand_points = set()
-
+count = 0
 while not_freefall:
     s = [500, 0]
-    if (500,0) in sand_points:
+    if (500,0) in points:
         break
     while True:
         
-        if (s[0], s[1] + 1) not in points and (s[0], s[1] + 1) not in sand_points:
+        if (s[0], s[1] + 1) not in points:
             s[1] += 1
-        elif (s[0], s[1] + 1) in points or (s[0], s[1] + 1) in sand_points:
-            if (s[0] - 1, s[1] + 1) not in points and (s[0] - 1, s[1] + 1) not in sand_points:
+        elif (s[0], s[1] + 1) in points:
+            if (s[0] - 1, s[1] + 1) not in points:
                 s[0] -= 1
                 s[1] += 1
-            elif (s[0] + 1, s[1] + 1) not in points and (s[0] + 1, s[1] + 1) not in sand_points:
+            elif (s[0] + 1, s[1] + 1) not in points:
                 s[0] += 1
                 s[1] += 1
             else:
-                sand_points.add((s[0], s[1]))
+                points.add((s[0], s[1]))
+                count += 1
                 break
-print(len(sand_points))
+print(count)
 
 
